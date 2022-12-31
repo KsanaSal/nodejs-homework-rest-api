@@ -9,16 +9,32 @@ router.get("/", async (req, res, next) => {
         const contacts = await contactsOperations.listContacts();
         res.json({ status: "success", code: 200, data: { result: contacts } });
     } catch (error) {
-        res.status(500).json({
-            status: "error",
-            code: 500,
-            message: "Server error",
-        });
+        next(error);
     }
 });
 
 router.get("/:contactId", async (req, res, next) => {
-    res.json({ message: "template message" });
+    try {
+        const { contactId } = req.params;
+        const result = await contactsOperations.getContactById(contactId);
+        if (!result) {
+            const error = new Error("Not found");
+            error.status = 404;
+            throw error;
+            // res.status(404).json({
+            //     status: "error",
+            //     code: 404,
+            //     message: "Not found",
+            // });
+        }
+        res.json({
+            status: "success",
+            code: 200,
+            data: result,
+        });
+    } catch (error) {
+        next(error);
+    }
 });
 
 router.post("/", async (req, res, next) => {
