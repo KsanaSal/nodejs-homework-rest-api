@@ -1,4 +1,14 @@
 const express = require("express");
+const Joi = require("joi");
+
+const contactSchema = Joi.object({
+    name: Joi.string().required(),
+    email: Joi.string().email().required(),
+    phone: Joi.string()
+        .pattern(/^\([0-9]{3}\)\s{1}[0-9]{3}-[0-9]{4}$/)
+        .message("Phone number must be next format (123) 111-1111")
+        .required(),
+});
 
 const router = express.Router();
 
@@ -30,7 +40,7 @@ router.get("/:contactId", async (req, res, next) => {
         res.json({
             status: "success",
             code: 200,
-            data: result,
+            data: { result },
         });
     } catch (error) {
         next(error);
@@ -38,7 +48,26 @@ router.get("/:contactId", async (req, res, next) => {
 });
 
 router.post("/", async (req, res, next) => {
-    res.json({ message: "template message" });
+    try {
+        const { error } = contactSchema.validate(req.body);
+        console.log(contactSchema.validate(req.body));
+        if (error) {
+            const err = new Error(
+                error.message || "missing required name field"
+            );
+            console.log(error.message);
+            err.status = 400;
+            throw err;
+        }
+        const result = await contactsOperations.addContact(req.body);
+        res.status(201).json({
+            status: "success",
+            code: 201,
+            data: { result },
+        });
+    } catch (error) {
+        next(error);
+    }
 });
 
 router.delete("/:contactId", async (req, res, next) => {
