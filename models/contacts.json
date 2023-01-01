@@ -60,14 +60,16 @@
     "phone": "(748) 206-2688"
   },
   {
-    "name": "Oksana",
-    "id": "598edc58-ad08-4eff-a293-df34e18e7a68"
+    "id": "598edc58-ad08-4eff-a293-df34e18e7a68",
+    "name": "Oksana Salivon",
+    "email": "ksana@mail.com",
+    "phone": "(123) 456-4569"
   },
   {
-    "name": "Oksana",
-    "email": "ksana@mail.com",
-    "phone": "s123478g1256",
-    "id": "dd8a577b-83f3-403d-84f2-56baed522a7f"
+    "id": "dd8a577b-83f3-403d-84f2-56baed522a7f",
+    "name": "Oksana S",
+    "email": "ksanasal@mail.com",
+    "phone": "(456) 159-2589"
   },
   {
     "name": "Oksana",
@@ -97,22 +99,10 @@
     "name": "Oksana",
     "email": "ksana@mail.com",
     "phone": "(123) 456-4569",
-    "id": "89eaa5a6-dd63-419e-b27c-ade369d856b8"
-  },
-  {
-    "name": "Oksana",
-    "email": "ksana@mail.com",
-    "phone": "(123) 456-4569",
     "id": "f7bc8fa3-d31e-4ffa-8282-68b1db706a81"
   },
   {
-    "name": "Oksana",
-    "email": "ksana@mail.com",
-    "phone": "(123) 456-4569",
-    "id": "d1a19427-6314-4ed1-b343-16ff30c425b7"
-  },
-  {
-    "contactId": "73a87e4e-d54e-4e9b-99d1-3252b20387e6",
+    "id": "73a87e4e-d54e-4e9b-99d1-3252b20387e6",
     "name": "Oksana Salivon",
     "email": "ksana@mail.com",
     "phone": "(123) 456-4569"
