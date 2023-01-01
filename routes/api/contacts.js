@@ -10,6 +10,14 @@ const contactSchema = Joi.object({
         .required(),
 });
 
+const contactUpdateSchema = Joi.object({
+    name: Joi.string(),
+    email: Joi.string().email(),
+    phone: Joi.string()
+        .pattern(/^\([0-9]{3}\)\s{1}[0-9]{3}-[0-9]{4}$/)
+        .message("Phone number must be next format (123) 111-1111"),
+});
+
 const router = express.Router();
 
 const contactsOperations = require("../../models/contacts");
@@ -84,7 +92,7 @@ router.delete("/:contactId", async (req, res, next) => {
 
 router.put("/:contactId", async (req, res, next) => {
     try {
-        const { error } = contactSchema.validate(req.body);
+        const { error } = contactUpdateSchema.validate(req.body);
         if (error) {
             const err = new Error(error.message || "missing fields");
             err.status = 400;
