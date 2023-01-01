@@ -31,11 +31,6 @@ router.get("/:contactId", async (req, res, next) => {
             const error = new Error("Not found");
             error.status = 404;
             throw error;
-            // res.status(404).json({
-            //     status: "error",
-            //     code: 404,
-            //     message: "Not found",
-            // });
         }
         res.json({
             status: "success",
@@ -50,12 +45,10 @@ router.get("/:contactId", async (req, res, next) => {
 router.post("/", async (req, res, next) => {
     try {
         const { error } = contactSchema.validate(req.body);
-        console.log(contactSchema.validate(req.body));
         if (error) {
             const err = new Error(
                 error.message || "missing required name field"
             );
-            console.log(error.message);
             err.status = 400;
             throw err;
         }
@@ -75,7 +68,31 @@ router.delete("/:contactId", async (req, res, next) => {
 });
 
 router.put("/:contactId", async (req, res, next) => {
-    res.json({ message: "template message" });
+    try {
+        const { error } = contactSchema.validate(req.body);
+        if (error) {
+            const err = new Error(error.message || "missing fields");
+            err.status = 400;
+            throw err;
+        }
+        const { contactId } = req.params;
+        const result = await contactsOperations.updateContact(
+            contactId,
+            req.body
+        );
+        if (!result) {
+            const error = new Error("Not found");
+            error.status = 404;
+            throw error;
+        }
+        res.json({
+            status: "success",
+            code: 200,
+            data: { result },
+        });
+    } catch (error) {
+        next(error);
+    }
 });
 
 module.exports = router;
