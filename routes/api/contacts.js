@@ -33,9 +33,8 @@ router.get("/:contactId", async (req, res, next) => {
     }
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", validation(contactSchema), async (req, res, next) => {
     try {
-        validation(contactSchema, req);
         const result = await contactsOperations.addContact(req.body);
         res.status(201).json({
             status: "success",
@@ -64,9 +63,8 @@ router.delete("/:contactId", async (req, res, next) => {
     }
 });
 
-router.put("/:contactId", async (req, res, next) => {
+router.put("/:contactId", validation(contactSchema), async (req, res, next) => {
     try {
-        validation(contactSchema, req);
         const { contactId } = req.params;
         const result = await contactsOperations.updateContact(
             contactId,
