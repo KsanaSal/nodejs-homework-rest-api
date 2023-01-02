@@ -4,6 +4,7 @@ const router = express.Router();
 
 const contactsOperations = require("../../models/contacts");
 const { contactSchema } = require("../../schemas/contact");
+const { HttpError } = require("../../helpers");
 
 router.get("/", async (req, res, next) => {
     try {
@@ -19,9 +20,7 @@ router.get("/:contactId", async (req, res, next) => {
         const { contactId } = req.params;
         const result = await contactsOperations.getContactById(contactId);
         if (!result) {
-            const error = new Error("Not found");
-            error.status = 404;
-            throw error;
+            throw HttpError(404);
         }
         res.json({
             status: "success",
@@ -59,9 +58,7 @@ router.delete("/:contactId", async (req, res, next) => {
         const { contactId } = req.params;
         const result = await contactsOperations.removeContact(contactId);
         if (!result) {
-            const error = new Error("Not found");
-            error.status = 404;
-            throw error;
+            throw HttpError(404);
         }
         res.json({
             status: "success",
@@ -87,9 +84,7 @@ router.put("/:contactId", async (req, res, next) => {
             req.body
         );
         if (!result) {
-            const error = new Error("Not found");
-            error.status = 404;
-            throw error;
+            throw HttpError(404);
         }
         res.json({
             status: "success",
