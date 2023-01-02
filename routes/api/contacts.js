@@ -5,6 +5,7 @@ const router = express.Router();
 const contactsOperations = require("../../models/contacts");
 const { contactSchema } = require("../../schemas/contact");
 const { HttpError } = require("../../helpers");
+const { validation } = require("../../middlewares");
 
 router.get("/", async (req, res, next) => {
     try {
@@ -34,14 +35,7 @@ router.get("/:contactId", async (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
     try {
-        const { error } = contactSchema.validate(req.body);
-        if (error) {
-            const err = new Error(
-                error.message || "missing required name field"
-            );
-            err.status = 400;
-            throw err;
-        }
+        validation(contactSchema, req);
         const result = await contactsOperations.addContact(req.body);
         res.status(201).json({
             status: "success",
@@ -72,12 +66,7 @@ router.delete("/:contactId", async (req, res, next) => {
 
 router.put("/:contactId", async (req, res, next) => {
     try {
-        const { error } = contactSchema.validate(req.body);
-        if (error) {
-            const err = new Error(error.message || "missing fields");
-            err.status = 400;
-            throw err;
-        }
+        validation(contactSchema, req);
         const { contactId } = req.params;
         const result = await contactsOperations.updateContact(
             contactId,
