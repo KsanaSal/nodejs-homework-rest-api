@@ -1,25 +1,50 @@
 const { Schema, model } = require("mongoose");
+const Joi = require("joi");
 
-const contactSchema = new Schema({
-    name: {
-        type: String,
-        required: [true, "Set name for contact"],
+const phoneRegexp = /^\([0-9]{3}\)\s{1}[0-9]{3}-[0-9]{4}$/;
+
+const contactSchema = new Schema(
+    {
+        name: {
+            type: String,
+            required: [true, "Set name for contact"],
+        },
+        email: {
+            type: String,
+            required: true,
+        },
+        phone: {
+            type: String,
+            validate: {
+                validator: function (v) {
+                    return phoneRegexp.test(v);
+                },
+                message: (props) =>
+                    `${props.value} is not a valid phone number! Phone number must be next format (123) 111-1111`,
+            },
+            required: [true, "User phone number required"],
+        },
+        favorite: {
+            type: Boolean,
+            default: false,
+        },
     },
-    email: {
-        type: String,
-    },
-    phone: {
-        type: String,
-    },
-    favorite: {
-        type: Boolean,
-        default: false,
-    },
-});
+    { versionKey: false, timestamps: true }
+);
 
 const Contact = model("contact", contactSchema);
 
-module.exports = Contact;
+const joiSchema = Joi.object({
+    name: Joi.string().required(),
+    email: Joi.string().email().required(),
+    phone: Joi.string()
+        .pattern(phoneRegexp)
+        .message("Phone number must be next format (123) 111-1111")
+        .required(),
+    favorite: Joi.bool(),
+});
+
+module.exports = { Contact, joiSchema };
 
 // const fs = require("fs/promises");
 // const path = require("path");
