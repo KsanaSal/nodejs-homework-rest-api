@@ -1,116 +1,80 @@
 [
   {
-    "id": "1",
     "name": "Allen Raymond",
     "email": "nulla.ante@vestibul.co.uk",
-    "phone": "(992) 914-3792"
+    "phone": "(992) 914-3792",
+    "favorite": true
   },
   {
-    "id": "2",
     "name": "Chaim Lewis",
     "email": "dui.in@egetlacus.ca",
-    "phone": "(294) 840-6685"
+    "phone": "(294) 840-6685",
+    "favorite": false
   },
   {
-    "id": "3",
     "name": "Kennedy Lane",
     "email": "mattis.Cras@nonenimMauris.net",
-    "phone": "(542) 451-7038"
+    "phone": "(542) 451-7038",
+    "favorite": false
   },
   {
-    "id": "4",
     "name": "Wylie Pope",
     "email": "est@utquamvel.net",
-    "phone": "(692) 802-2949"
+    "phone": "(692) 802-2949",
+    "favorite": true
   },
   {
-    "id": "5",
     "name": "Cyrus Jackson",
     "email": "nibh@semsempererat.com",
-    "phone": "(501) 472-5218"
+    "phone": "(501) 472-5218",
+    "favorite": true
   },
   {
-    "id": "6",
     "name": "Abbot Franks",
     "email": "scelerisque@magnis.org",
-    "phone": "(186) 568-3720"
+    "phone": "(186) 568-3720",
+    "favorite": false
   },
   {
-    "id": "7",
     "name": "Reuben Henry",
     "email": "pharetra.ut@dictum.co.uk",
-    "phone": "(715) 598-5792"
+    "phone": "(715) 598-5792",
+    "favorite": false
   },
   {
-    "id": "8",
     "name": "Simon Morton",
     "email": "dui.Fusce.diam@Donec.com",
-    "phone": "(233) 738-2360"
+    "phone": "(233) 738-2360",
+    "favorite": true
   },
   {
-    "id": "9",
     "name": "Thomas Lucas",
     "email": "nec@Nulla.com",
-    "phone": "(704) 398-7993"
+    "phone": "(704) 398-7993",
+    "favorite": false
   },
   {
-    "id": "10",
     "name": "Alec Howard",
     "email": "Donec.elementum@scelerisquescelerisquedui.net",
-    "phone": "(748) 206-2688"
+    "phone": "(748) 206-2688",
+    "favorite": true
   },
   {
-    "id": "598edc58-ad08-4eff-a293-df34e18e7a68",
     "name": "Oksana Salivon",
     "email": "ksana@mail.com",
-    "phone": "(123) 456-4569"
-  },
-  {
-    "id": "dd8a577b-83f3-403d-84f2-56baed522a7f",
-    "name": "Oksana S",
-    "email": "ksanasal@mail.com",
-    "phone": "(456) 159-2589"
-  },
-  {
-    "name": "Oksana",
-    "email": "ksana@mail.com",
     "phone": "(123) 456-4569",
-    "id": "e8e7a07a-37ee-4e5e-a467-f234aee3af02"
+    "favorite": false
   },
   {
-    "name": "Oksana Sich",
-    "email": "sichksana@mail.com",
-    "phone": "(123) 259-4569",
-    "id": "7eea9aab-571d-4680-b723-15a9e9d16467"
-  },
-  {
-    "name": "Oksana Savinova",
-    "email": "ksana@mail.com",
-    "phone": "(123) 456-4569",
-    "id": "a79a1477-68a2-4487-8bd8-89039e84d4c5"
-  },
-  {
-    "id": "73a87e4e-d54e-4e9b-99d1-3252b20387e6",
     "name": "Sasha Sal",
     "email": "sashasal@mail.com",
-    "phone": "(123) 456-4569"
+    "phone": "(123) 456-4569",
+    "favorite": true
   },
   {
     "name": "Oksana Kubaneth",
     "email": "ksanakub@mail.com",
     "phone": "(589) 456-4569",
-    "id": "4291b0a0-01e8-4be2-97a8-b1a632efcb0b"
-  },
-  {
-    "name": "Oksana Kubaneth",
-    "phone": "(589) 456-4569",
-    "id": "643ab94d-042e-44e4-9b01-cc18d0da6fa6",
-    "email": "kubksana@mail.com"
-  },
-  {
-    "name": "Lara Kubaneth",
-    "email": "ksanakub@mail.com",
-    "id": "5f544e5f-c211-40c8-be45-c9ab1daf8284",
-    "phone": "(456) 159-4893"
+    "favorite": true
   }
 ]
