@@ -1,6 +1,5 @@
 const { Contact } = require("../models/contact");
 
-// const contactsOperations = require("../models/contact");
 const { HttpError } = require("../helpers");
 
 const getAll = async (req, res, next) => {
@@ -14,11 +13,8 @@ const getAll = async (req, res, next) => {
 
 const getById = async (req, res, next) => {
     try {
-        console.log("first");
         const { contactId } = req.params;
-        console.log(contactId);
         const result = await Contact.findById(contactId);
-        console.log(result);
         if (!result) {
             console.log("123");
             throw HttpError(404);
@@ -83,7 +79,6 @@ const updateContact = async (req, res, next) => {
 };
 
 const updateFavorite = async (req, res, next) => {
-    console.log("first");
     try {
         const { contactId } = req.params;
         const { favorite } = req.body;

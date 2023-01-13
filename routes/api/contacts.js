@@ -2,9 +2,7 @@ const express = require("express");
 
 const router = express.Router();
 
-// const contactsOperations = require("../../models/contact");
 const { schemas } = require("../../models/contact");
-// const { HttpError } = require("../../helpers");
 const { validation } = require("../../middlewares");
 const controller = require("../../controllers/contacts");
 
