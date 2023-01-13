@@ -12,16 +12,18 @@ router.get("/:contactId", isValidId, controller.getById);
 
 router.post("/", validation(schemas.joiAddSchema), controller.addContact);
 
-router.delete("/:contactId", controller.removeById);
+router.delete("/:contactId", isValidId, controller.removeById);
 
 router.put(
     "/:contactId",
+    isValidId,
     validation(schemas.joiAddSchema),
     controller.updateContact
 );
 
 router.patch(
     "/:contactId/favorite",
+    isValidId,
     validation(schemas.joiUpdateFavoriteSchema),
     controller.updateFavorite
 );
