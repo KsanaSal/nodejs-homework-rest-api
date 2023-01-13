@@ -3,12 +3,12 @@ const express = require("express");
 const router = express.Router();
 
 const { schemas } = require("../../models/contact");
-const { validation } = require("../../middlewares");
+const { validation, isValidId } = require("../../middlewares");
 const controller = require("../../controllers/contacts");
 
 router.get("/", controller.getAll);
 
-router.get("/:contactId", controller.getById);
+router.get("/:contactId", isValidId, controller.getById);
 
 router.post("/", validation(schemas.joiAddSchema), controller.addContact);
 
