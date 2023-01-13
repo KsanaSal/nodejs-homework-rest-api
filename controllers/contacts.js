@@ -14,16 +14,20 @@ const getAll = async (req, res, next) => {
 
 const getById = async (req, res, next) => {
     try {
+        console.log("first");
         const { contactId } = req.params;
-        // const result = await contactsOperations.getContactById(contactId);
-        // if (!result) {
-        //     throw HttpError(404);
-        // }
-        // res.json({
-        //     status: "success",
-        //     code: 200,
-        //     data: { result },
-        // });
+        console.log(contactId);
+        const result = await Contact.findById(contactId);
+        console.log(result);
+        if (!result) {
+            console.log("123");
+            throw HttpError(404);
+        }
+        res.json({
+            status: "success",
+            code: 200,
+            data: { result },
+        });
     } catch (error) {
         next(error);
     }
@@ -31,12 +35,12 @@ const getById = async (req, res, next) => {
 
 const addContact = async (req, res, next) => {
     try {
-        // const result = await contactsOperations.addContact(req.body);
-        // res.status(201).json({
-        //     status: "success",
-        //     code: 201,
-        //     data: { result },
-        // });
+        const result = await Contact.create(req.body);
+        res.status(201).json({
+            status: "success",
+            code: 201,
+            data: { result },
+        });
     } catch (error) {
         next(error);
     }
