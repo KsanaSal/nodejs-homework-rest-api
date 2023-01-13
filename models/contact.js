@@ -1,6 +1,8 @@
 const { Schema, model } = require("mongoose");
 const Joi = require("joi");
 
+// const { handleMongooseError } = require("../helpers/handleMongooseError");
+
 const phoneRegexp = /^\([0-9]{3}\)\s{1}[0-9]{3}-[0-9]{4}$/;
 
 const contactSchema = new Schema(
@@ -32,19 +34,27 @@ const contactSchema = new Schema(
     { versionKey: false, timestamps: true }
 );
 
+// contactSchema.post("save", handleMongooseError);
+
 const Contact = model("contact", contactSchema);
 
-const joiSchema = Joi.object({
+const joiAddSchema = Joi.object({
     name: Joi.string().required(),
     email: Joi.string().email().required(),
     phone: Joi.string()
         .pattern(phoneRegexp)
         .message("Phone number must be next format (123) 111-1111")
         .required(),
-    favorite: Joi.bool(),
+    favorite: Joi.boolean(),
 });
 
-module.exports = { Contact, joiSchema };
+const joiUpdateFavoriteSchema = Joi.object({
+    favorite: Joi.boolean().required(),
+});
+
+const schemas = { joiAddSchema, joiUpdateFavoriteSchema };
+
+module.exports = { Contact, schemas };
 
 // const fs = require("fs/promises");
 // const path = require("path");

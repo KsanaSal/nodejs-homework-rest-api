@@ -49,15 +49,15 @@ const addContact = async (req, res, next) => {
 const removeById = async (req, res, next) => {
     try {
         const { contactId } = req.params;
-        // const result = await contactsOperations.removeContact(contactId);
-        // if (!result) {
-        //     throw HttpError(404);
-        // }
-        // res.json({
-        //     status: "success",
-        //     code: 200,
-        //     data: { message: "contact deleted" },
-        // });
+        const result = await Contact.findByIdAndRemove(contactId);
+        if (!result) {
+            throw HttpError(404);
+        }
+        res.json({
+            status: "success",
+            code: 200,
+            data: { message: "contact deleted" },
+        });
     } catch (error) {
         next(error);
     }
@@ -66,21 +66,47 @@ const removeById = async (req, res, next) => {
 const updateContact = async (req, res, next) => {
     try {
         const { contactId } = req.params;
-        // const result = await contactsOperations.updateContact(
-        //     contactId,
-        //     req.body
-        // );
-        // if (!result) {
-        //     throw HttpError(404);
-        // }
-        // res.json({
-        //     status: "success",
-        //     code: 200,
-        //     data: { result },
-        // });
+        const result = await Contact.findByIdAndUpdate(contactId, req.body, {
+            new: true,
+        });
+        if (!result) {
+            throw HttpError(404);
+        }
+        res.json({
+            status: "success",
+            code: 200,
+            data: { result },
+        });
     } catch (error) {
         next(error);
     }
 };
 
-module.exports = { getAll, getById, addContact, removeById, updateContact };
+const updateFavorite = async (req, res, next) => {
+    console.log("first");
+    try {
+        const { contactId } = req.params;
+        const result = await Contact.findByIdAndUpdate(contactId, req.body, {
+            new: true,
+        });
+        if (!result) {
+            throw HttpError(404);
+        }
+        res.json({
+            status: "success",
+            code: 200,
+            data: { result },
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+module.exports = {
+    getAll,
+    getById,
+    addContact,
+    removeById,
+    updateContact,
+    updateFavorite,
+};
