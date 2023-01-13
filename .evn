@@ -1,5 +1,0 @@
-DB_HOST=mongodb+srv://Oksana:olgOETBNZ6BqQphc@cluster0.3xomgda.mongodb.net/db-contacts?retryWrites=true&w=majority
-PORT=3000
-DB_USER=Oksana
-DB_PASSWORD=olgOETBNZ6BqQphc
-DB_NAME=db-contacts
