@@ -1,7 +1,8 @@
 const { Schema, model } = require("mongoose");
 const Joi = require("joi");
 
-// const { handleMongooseError } = require("../helpers/handleMongooseError");
+const { handleMongooseError } = require("../helpers");
+// console.log(handleMongooseError);
 
 const phoneRegexp = /^\([0-9]{3}\)\s{1}[0-9]{3}-[0-9]{4}$/;
 
@@ -34,7 +35,7 @@ const contactSchema = new Schema(
     { versionKey: false, timestamps: true }
 );
 
-// contactSchema.post("save", handleMongooseError);
+contactSchema.post("save", handleMongooseError);
 
 const Contact = model("contact", contactSchema);
 
