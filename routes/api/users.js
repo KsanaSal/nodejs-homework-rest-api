@@ -6,11 +6,13 @@ const { schemas } = require("../../models/user");
 
 const router = express.Router();
 
-router.get("/", controller.getAll);
+// router.get("/", controller.getAll);
 router.post(
     "/register",
     validation(schemas.joiRegisterSchema),
     controller.register
 );
+
+router.post("/login", validation(schemas.joiLoginSchema), controller.login);
 
 module.exports = router;

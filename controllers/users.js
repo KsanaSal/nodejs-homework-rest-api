@@ -1,11 +1,15 @@
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
 const { User } = require("../models/user");
 
 const { HttpError } = require("../helpers");
 
-const getAll = async (req, res, next) => {
-    console.log("123");
-};
+const { SECRET_KEY } = process.env;
+
+// const getAll = async (req, res, next) => {
+//     console.log("123");
+// };
 
 const register = async (req, res, next) => {
     console.log("first");
@@ -29,4 +33,33 @@ const register = async (req, res, next) => {
     }
 };
 
-module.exports = { register, getAll };
+const login = async (req, res, next) => {
+    try {
+        const { email, password } = req.body;
+        const user = await User.findOne({ email });
+        const passwordCompare = await bcrypt.compare(password, user.password);
+        if (!user || !passwordCompare) {
+            throw HttpError(401, "Email or password is wrong");
+        }
+        // if (!user) {
+        //     throw HttpError(401, "Email or password is wrong");
+        // }
+        // const passwordCompare = await bcrypt.compare(password, user.password);
+        // if (!passwordCompare) {
+        //     throw HttpError(401, "Email or password is wrong");
+        // }
+        const payload = {
+            id: user._id,
+        };
+        const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "23h" });
+        res.status(201).json({
+            token,
+            name: user.name,
+            email: user.email,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+module.exports = { register, login };
