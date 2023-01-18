@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 const { User } = require("../models/user");
 
@@ -62,4 +63,17 @@ const login = async (req, res, next) => {
     }
 };
 
-module.exports = { register, login };
+const getCurrent = async (req, res, next) => {
+    try {
+        const { name, email } = req.user;
+        res.json({
+            status: "success",
+            code: 200,
+            data: { user: { name, email } },
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+module.exports = { register, login, getCurrent };

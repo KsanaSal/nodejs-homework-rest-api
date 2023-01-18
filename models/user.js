@@ -28,13 +28,14 @@ const userSchema = new Schema(
             enum: ["starter", "pro", "business"],
             default: "starter",
         },
+        token: { type: String },
     },
     { versionKey: false, timestamps: true }
 );
 
 userSchema.post("save", handleMongooseError);
 
-const User = model("user", userSchema);
+const User = model("User", userSchema);
 
 const joiRegisterSchema = Joi.object({
     name: Joi.string().required(),
