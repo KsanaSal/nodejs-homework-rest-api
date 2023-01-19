@@ -6,7 +6,6 @@ const { schemas } = require("../../models/user");
 
 const router = express.Router();
 
-// router.get("/", controller.getAll);
 router.post(
     "/register",
     validation(schemas.joiRegisterSchema),
