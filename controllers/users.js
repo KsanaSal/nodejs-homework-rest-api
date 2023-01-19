@@ -9,7 +9,6 @@ const { HttpError } = require("../helpers");
 const { SECRET_KEY } = process.env;
 
 const register = async (req, res, next) => {
-    console.log("first");
     try {
         const { email, password } = req.body;
         const user = await User.findOne({ email });
@@ -74,7 +73,6 @@ const logout = async (req, res, next) => {
             message: "No Content",
         });
     } catch (error) {
-        console.log(error);
         next(error);
     }
 };
@@ -97,7 +95,6 @@ const subscriptUser = async (req, res, next) => {
             data: { result },
         });
     } catch (error) {
-        console.log(error);
         next(error);
     }
 };
