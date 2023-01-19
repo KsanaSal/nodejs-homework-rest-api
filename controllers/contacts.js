@@ -7,12 +7,17 @@ const getAll = async (req, res, next) => {
         console.log("contacts");
         const { _id } = req.user;
         console.log(_id);
-        const { page = 1, limit = 10 } = req.query;
+        const { page = 1, limit = 10, favorite } = req.query;
         const skip = (page - 1) * limit;
-        const contacts = await Contact.find({ owner: _id }, "", {
-            skip,
-            limit: Number(limit),
-        }).populate("owner", "name email");
+        const contacts = favorite
+            ? await Contact.find({ owner: _id, favorite }, "", {
+                  skip,
+                  limit: Number(limit),
+              }).populate("owner", "name email")
+            : await Contact.find({ owner: _id }, "", {
+                  skip,
+                  limit: Number(limit),
+              }).populate("owner", "name email");
         res.json({ status: "success", code: 200, data: { result: contacts } });
     } catch (error) {
         next(error);

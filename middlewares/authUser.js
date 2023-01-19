@@ -11,20 +11,25 @@ const authUser = async (req, res, next) => {
     const [bearer, token] = authorization.split(" ");
     try {
         if (bearer !== "Bearer") {
+            console.log("45698");
             throw HttpError(401, "Not authorized");
         }
         const { id } = jwt.verify(token, SECRET_KEY);
+        console.log(id);
         const user = await User.findById(id);
-        if (!user) {
+        if (!user || !user.token || token !== String(user.token)) {
+            console.log("first");
             throw HttpError(401, "Not authorized");
         }
         req.user = user;
         next();
     } catch (error) {
+        console.log("123");
         if (error.message === "Invalid signature") {
             error.status = 401;
         }
-        throw error;
+        next(error);
+        // throw HttpError(401, "Not authorized");
     }
 };
 

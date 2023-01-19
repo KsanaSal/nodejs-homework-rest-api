@@ -16,6 +16,13 @@ router.post("/login", validation(schemas.joiLoginSchema), controller.login);
 
 router.get("/current", authUser, controller.getCurrent);
 
-// router.post("/logout", authUser, controller.logout);
+router.get("/logout", authUser, controller.logout);
+
+router.patch(
+    "/subscription",
+    authUser,
+    validation(schemas.joiSubscriptionSchema),
+    controller.subscriptUser
+);
 
 module.exports = router;

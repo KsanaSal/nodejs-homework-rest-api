@@ -55,15 +55,51 @@ const login = async (req, res, next) => {
 
 const getCurrent = async (req, res, next) => {
     try {
-        const { name, email } = req.user;
+        const { name, email, subscription } = req.user;
         res.json({
             status: "success",
             code: 200,
-            data: { user: { name, email } },
+            data: { user: { name, email, subscription } },
         });
     } catch (error) {
         next(error);
     }
 };
 
-module.exports = { register, login, getCurrent };
+const logout = async (req, res, next) => {
+    try {
+        const { _id } = req.user;
+        await User.findByIdAndUpdate(_id, { token: " " });
+        res.status(204).json({
+            message: "No Content",
+        });
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+};
+
+const subscriptUser = async (req, res, next) => {
+    try {
+        const { _id } = req.user;
+        const { subscription } = req.body;
+        const result = await User.findByIdAndUpdate(
+            _id,
+            { subscription },
+            { new: true }
+        );
+        if (!result) {
+            throw HttpError(404);
+        }
+        res.json({
+            status: "success",
+            code: 200,
+            data: { result },
+        });
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+};
+
+module.exports = { register, login, getCurrent, logout, subscriptUser };
