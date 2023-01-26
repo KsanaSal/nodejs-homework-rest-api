@@ -6,6 +6,9 @@ const multerStorage = multer.diskStorage({
     filename: (req, file, cb) => {
         cb(null, file.originalname);
     },
+    limits: {
+        fileSize: 2048,
+    },
 });
 
 const upload = multer({
