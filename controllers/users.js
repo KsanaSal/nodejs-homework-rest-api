@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const gravatar = require("gravatar");
 const fs = require("fs/promises");
 const path = require("path");
+const jimp = require("jimp");
 require("dotenv").config();
 
 const { User } = require("../models/user");
@@ -108,12 +109,15 @@ const subscriptUser = async (req, res, next) => {
 const avatarsDir = path.join(__dirname, "../", "public", "avatars");
 const updateAvatar = async (req, res, next) => {
     const { path: tempUpload, filename } = req.file;
+    const newImage = await jimp.read(tempUpload);
     try {
         const { _id } = req.user;
-        const resultUpload = path.join(avatarsDir, filename);
+        newImage.resize(250, 250).quality(50).write(tempUpload);
+        const newFileName = `${_id}_${filename}`;
+        const resultUpload = path.join(avatarsDir, newFileName);
         await fs.rename(tempUpload, resultUpload);
 
-        const avatarURL = path.join("avatars", filename);
+        const avatarURL = path.join("avatars", newFileName);
         await User.findByIdAndUpdate(_id, { avatarURL });
 
         res.json({ avatarURL });
