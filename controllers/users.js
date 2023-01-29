@@ -1,5 +1,9 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const gravatar = require("gravatar");
+const fs = require("fs/promises");
+const path = require("path");
+const jimp = require("jimp");
 require("dotenv").config();
 
 const { User } = require("../models/user");
@@ -16,13 +20,16 @@ const register = async (req, res, next) => {
             throw HttpError(409, "Email in use");
         }
         const hashPassword = await bcrypt.hash(password, 10);
+        const avatarURL = gravatar.url(email);
         const newUser = await User.create({
             ...req.body,
             password: hashPassword,
+            avatarURL,
         });
         res.status(201).json({
             name: newUser.name,
             email: newUser.email,
+            avatar: newUser.avatarURL,
         });
     } catch (error) {
         next(error);
@@ -99,4 +106,31 @@ const subscriptUser = async (req, res, next) => {
     }
 };
 
-module.exports = { register, login, getCurrent, logout, subscriptUser };
+const avatarsDir = path.join(__dirname, "../", "public", "avatars");
+const updateAvatar = async (req, res, next) => {
+    const { path: tempUpload, filename } = req.file;
+    const newImage = await jimp.read(tempUpload);
+    try {
+        const { _id } = req.user;
+        newImage.resize(250, 250).quality(50).write(tempUpload);
+        const newFileName = `${_id}_${filename}`;
+        const resultUpload = path.join(avatarsDir, newFileName);
+        await fs.rename(tempUpload, resultUpload);
+
+        const avatarURL = path.join("avatars", newFileName);
+        await User.findByIdAndUpdate(_id, { avatarURL });
+
+        res.json({ avatarURL });
+    } catch (error) {
+        next(error);
+    }
+};
+
+module.exports = {
+    register,
+    login,
+    getCurrent,
+    logout,
+    subscriptUser,
+    updateAvatar,
+};
