@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const { v4: uuidv4 } = require("uuid");
 const jwt = require("jsonwebtoken");
 const gravatar = require("gravatar");
 const fs = require("fs/promises");
@@ -8,9 +9,9 @@ require("dotenv").config();
 
 const { User } = require("../models/user");
 
-const { HttpError } = require("../helpers");
+const { HttpError, sendEmail } = require("../helpers");
 
-const { SECRET_KEY } = process.env;
+const { SECRET_KEY, BASE_URL } = process.env;
 
 const register = async (req, res, next) => {
     try {
@@ -21,15 +22,44 @@ const register = async (req, res, next) => {
         }
         const hashPassword = await bcrypt.hash(password, 10);
         const avatarURL = gravatar.url(email);
+        const verificationToken = uuidv4();
         const newUser = await User.create({
             ...req.body,
             password: hashPassword,
             avatarURL,
+            verificationToken,
         });
+        const verifyEmail = {
+            to: email,
+            subject: "Verify email",
+            html: `<a target="_blank" href="${BASE_URL}/api/users/verify/${verificationToken}">Click verify email</a>`,
+        };
+        await sendEmail(verifyEmail);
         res.status(201).json({
             name: newUser.name,
             email: newUser.email,
             avatar: newUser.avatarURL,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+const verify = async (req, res, next) => {
+    try {
+        const { verificationToken } = req.params;
+        const user = await User.findOne({ verificationToken });
+        if (!user) {
+            throw HttpError(404, "User not found");
+        }
+        await User.findByIdAndUpdate(user._id, {
+            verify: true,
+            verificationToken: "",
+        });
+        res.json({
+            status: "success",
+            code: 200,
+            message: "Verification successful",
         });
     } catch (error) {
         next(error);
@@ -133,4 +163,5 @@ module.exports = {
     logout,
     subscriptUser,
     updateAvatar,
+    verify,
 };

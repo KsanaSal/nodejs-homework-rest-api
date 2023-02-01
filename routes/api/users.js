@@ -12,6 +12,8 @@ router.post(
     controller.register
 );
 
+router.get("verify/:verificationToken", controller.verify);
+
 router.post("/login", validation(schemas.joiLoginSchema), controller.login);
 
 router.get("/current", authUser, controller.getCurrent);
