@@ -61,6 +61,15 @@ const joiSubscriptionSchema = Joi.object({
     subscription: Joi.string().valid("starter", "pro", "business"),
 });
 
-const schemas = { joiRegisterSchema, joiLoginSchema, joiSubscriptionSchema };
+const joiVerifyEmailSchema = Joi.object({
+    email: Joi.string().pattern(emailRegexp).required(),
+});
+
+const schemas = {
+    joiRegisterSchema,
+    joiLoginSchema,
+    joiSubscriptionSchema,
+    joiVerifyEmailSchema,
+};
 
 module.exports = { User, schemas };

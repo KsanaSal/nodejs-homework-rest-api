@@ -66,6 +66,36 @@ const verify = async (req, res, next) => {
     }
 };
 
+const resendVerifyEmail = async (req, res, next) => {
+    try {
+        const { email } = req.body;
+        const { verificationToken } = req.params;
+        const user = await User.findOne({ email });
+        if (!user) {
+            throw HttpError(
+                400,
+                "User not found or missing required field email"
+            );
+        }
+        if (user.verify) {
+            throw HttpError(400, "Verification has already been passed");
+        }
+        const verifyEmail = {
+            to: email,
+            subject: "Verify email",
+            html: `<a target="_blank" href="${BASE_URL}/api/users/verify/${verificationToken}">Click verify email</a>`,
+        };
+        await sendEmail(verifyEmail);
+        res.json({
+            status: "success",
+            code: 200,
+            message: "Verification email sent",
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
 const login = async (req, res, next) => {
     try {
         const { email, password } = req.body;
@@ -73,6 +103,12 @@ const login = async (req, res, next) => {
         const passwordCompare = await bcrypt.compare(password, user.password);
         if (!user || !passwordCompare) {
             throw HttpError(401, "Email or password is wrong");
+        }
+        if (!user.verify) {
+            throw HttpError(
+                401,
+                "Your Email has not been verified. Please click on verify email."
+            );
         }
         const payload = {
             id: user._id,
@@ -164,4 +200,5 @@ module.exports = {
     subscriptUser,
     updateAvatar,
     verify,
+    resendVerifyEmail,
 };
