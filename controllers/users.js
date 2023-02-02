@@ -90,7 +90,6 @@ const resendVerifyEmail = async (req, res, next) => {
             status: "success",
             code: 200,
             message: "Verification email sent",
-            html: `<a target="_blank" href="${BASE_URL}/api/users/verify/${user.verificationToken}">Click verify email</a>`,
         });
     } catch (error) {
         next(error);
