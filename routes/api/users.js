@@ -12,7 +12,7 @@ router.post(
     controller.register
 );
 
-router.get("verify/:verificationToken", controller.verify);
+router.get("/verify/:verificationToken", controller.verify);
 
 router.post(
     "/verify",

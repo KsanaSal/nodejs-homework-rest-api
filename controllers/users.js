@@ -16,6 +16,7 @@ const { SECRET_KEY, BASE_URL } = process.env;
 const register = async (req, res, next) => {
     try {
         const { email, password } = req.body;
+
         const user = await User.findOne({ email });
         if (user) {
             throw HttpError(409, "Email in use");
@@ -69,7 +70,6 @@ const verify = async (req, res, next) => {
 const resendVerifyEmail = async (req, res, next) => {
     try {
         const { email } = req.body;
-        const { verificationToken } = req.params;
         const user = await User.findOne({ email });
         if (!user) {
             throw HttpError(
@@ -83,13 +83,14 @@ const resendVerifyEmail = async (req, res, next) => {
         const verifyEmail = {
             to: email,
             subject: "Verify email",
-            html: `<a target="_blank" href="${BASE_URL}/api/users/verify/${verificationToken}">Click verify email</a>`,
+            html: `<a target="_blank" href="${BASE_URL}/api/users/verify/${user.verificationToken}">Click verify email</a>`,
         };
         await sendEmail(verifyEmail);
         res.json({
             status: "success",
             code: 200,
             message: "Verification email sent",
+            html: `<a target="_blank" href="${BASE_URL}/api/users/verify/${user.verificationToken}">Click verify email</a>`,
         });
     } catch (error) {
         next(error);
