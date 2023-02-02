@@ -25,7 +25,6 @@ const getById = async (req, res, next) => {
         const { contactId } = req.params;
         const result = await Contact.findById(contactId);
         if (!result) {
-            console.log("123");
             throw HttpError(404);
         }
         res.json({
